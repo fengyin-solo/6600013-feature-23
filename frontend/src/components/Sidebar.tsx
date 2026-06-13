@@ -36,13 +36,51 @@ export default function Sidebar() {
         <div className="grid grid-cols-2 gap-2">
           {THEMES.map(t => (
             <button key={t.id} onClick={() => store.setTheme(t.id)}
-              className="flex items-center gap-1 px-2 py-1 rounded text-xs bg-gray-700 hover:bg-gray-600">
+              className={`flex items-center gap-1 px-2 py-1 rounded text-xs ${store.themeId===t.id?'bg-indigo-600':'bg-gray-700 hover:bg-gray-600'}`}>
               <div className="flex">{t.colors.map((c,i) => (
                 <div key={i} style={{background:c}} className="w-3 h-3 rounded-full" />
               ))}</div>
               <span>{t.name}</span>
             </button>
           ))}
+        </div>
+      </div>
+
+      {/* Palette colors */}
+      <div>
+        <div className="flex items-center justify-between mb-1">
+          <label className="text-xs text-gray-400">调色板</label>
+          <button onClick={() => store.resetPalette()}
+            className="text-xs text-gray-400 hover:text-white">重置</button>
+        </div>
+        <div className="flex gap-2 flex-wrap">
+          {store.palette.map((color, i) => (
+            <div key={i} className="relative">
+              <input
+                type="color"
+                value={color}
+                onChange={e => store.setPaletteColor(i, e.target.value)}
+                className="w-10 h-10 rounded cursor-pointer border-2 border-gray-600 bg-transparent"
+                style={{ padding: 0 }}
+              />
+              <div className="text-[10px] text-gray-500 text-center mt-0.5">{i + 1}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Background color */}
+      <div>
+        <label className="text-xs text-gray-400 block mb-1">背景色</label>
+        <div className="flex items-center gap-2">
+          <input
+            type="color"
+            value={store.bgColor}
+            onChange={e => store.setParam('bgColor', e.target.value)}
+            className="w-10 h-10 rounded cursor-pointer border-2 border-gray-600 bg-transparent"
+            style={{ padding: 0 }}
+          />
+          <span className="text-xs text-gray-400 font-mono">{store.bgColor}</span>
         </div>
       </div>
 
